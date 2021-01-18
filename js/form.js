@@ -19,7 +19,7 @@ $(function () {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      url: $(form).attr("action"),
+      url: "/",
       data: formData,
     })
       .done(function (response) {
