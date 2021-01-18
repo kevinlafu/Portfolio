@@ -17,7 +17,7 @@ $(function () {
     $.ajax({
       type: "POST",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       url: $(form).attr("action"),
       data: formData,
