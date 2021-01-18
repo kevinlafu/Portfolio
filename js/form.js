@@ -17,7 +17,7 @@ $(function () {
     $.ajax({
       type: "POST",
       headers: {
-        "Access-Control-Allow-Origin": "https://getsimpleform.com/",
+        "Access-Control-Allow-Origin": "https://getsimpleform.com",
       },
       url: $(form).attr("action"),
       data: formData,
