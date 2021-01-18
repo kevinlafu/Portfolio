@@ -1,42 +1,47 @@
-document.querySelector("form").addEventListener("submit", handleSubmit);
+window.addEventListener("DOMContentLoaded", function () {
+  // get the form elements defined in your form HTML above
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  let myForm = document.getElementById("ajax-contact");
-  var formMessages = $("#form-messages");
+  var form = document.getElementById("ajax-contact");
+  var button = document.getElementById("submit-contact");
+  var status = document.getElementById("form-messages");
 
-  let formData = new FormData(myForm);
-  fetch("/", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams(formData).toString(),
-  })
-    .then(() => {
-      // Make sure that the formMessages div has the 'success' class.
-      $(formMessages).removeClass("bg-danger");
-      $(formMessages).addClass("bg-success");
+  // Success and Error functions for after the form is submitted
 
-      // Set the message text.
-      $(formMessages).text("Your message successfully sent");
+  function success() {
+    form.reset();
+    button.style = "display: none ";
+    status.innerHTML = "Thanks!";
+  }
 
-      // Clear the form.
-      $("#name, #email, #message").val("");
-    })
-    .catch((error) => {
-      // Make sure that the formMessages div has the 'error' class.
-      $(formMessages).removeClass("bg-success");
-      $(formMessages).addClass("bg-danger");
+  function error() {
+    status.innerHTML = "Oops! There was a problem.";
+  }
 
-      // Set the message text.
-      if (data.responseText !== "") {
-        $(formMessages).text(data.responseText);
-      } else {
-        $(formMessages).text(
-          "Oops! An error occured and your message could not be sent."
-        );
-      }
-    });
-};
+  // handle the form submission event
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var data = new FormData(form);
+    ajax(form.method, form.action, data, success, error);
+  });
+});
+
+// helper function for sending an AJAX request
+
+function ajax(method, url, data, success, error) {
+  var xhr = new XMLHttpRequest();
+  xhr.open(method, url);
+  xhr.setRequestHeader("Accept", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+    if (xhr.status === 200) {
+      success(xhr.response, xhr.responseType);
+    } else {
+      error(xhr.status, xhr.response, xhr.responseType);
+    }
+  };
+  xhr.send(data);
+}
 
 // $(function () {
 //   // Get the form.
