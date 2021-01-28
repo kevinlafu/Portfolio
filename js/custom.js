@@ -216,8 +216,9 @@
         $("body").removeClass("sidemenu-open");
       });
   });
-
-  $(document).on("click", ".portfolio-item", function () {
-    $(this).find("a").trigger("click");
-  });
 })(jQuery, window, document);
+
+$(document).on("click", ".portfolio-item", function () {
+  var anchor = this.querySelector("a");
+  anchor.click();
+});
